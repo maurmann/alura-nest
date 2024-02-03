@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { Controller, Post, Body, Get } from "@nestjs/common";
 import { ProductRepository } from './product.repository';
 
