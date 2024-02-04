@@ -2,45 +2,53 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './dto/createUser.dto';
-import { ListUserDto } from './dto/listUser.dto';
 import { UserUpdateDto } from './dto/userUpdate.dto';
+import { UserService } from './user.service';
 
 @Controller('/users')
 export class UserController {
 
     //private userRepository: UserRepository = new UserRepository();
 
-    constructor(private userRepository: UserRepository) { }
+    constructor(private userRepository: UserRepository,
+        private userService: UserService) { }
 
 
     @Post()
     async createUser(@Body() userData: CreateUserDto) {
 
+
+        await this.userService.create(userData);
+
+        /*
         const newId = await this.userRepository.create(userData);
 
         return {
             message: "user created",
             id: newId
         };
+        */
     }
 
     @Put('/:id')
-    async updateUser(@Param('id') id: string, @Body() userUpdateDto: UserUpdateDto) {
-        const userUpdated = await this.userRepository.update(id, userUpdateDto);
-        return userUpdated;
+    async updateUser(@Param('id') id: string, @Body() userData: UserUpdateDto) {
+        //const userUpdated = await this.userRepository.update(id, userUpdateDto);
+        //return userUpdated;
+
+        this.userService.update(id, userData);
+
+        return undefined;
     }
 
     @Get()
     async getUsers() {
-        const userList = await this.userRepository.getAll();
-        const listUserDto = userList.map(user => new ListUserDto(user.id, user.name));
-        return listUserDto;
+        const users = await this.userService.getAll();
+        return users;
     }
 
     @Delete('/:id')
-    async deleteUser(@Param('id') id: string) {
-        const deletedUser = await this.userRepository.deleteUser(id);
-        return deletedUser;
+    async deleteUser(@Param('id') id) {
+        await this.userService.delete(id);
     }
 
 }

@@ -19,6 +19,7 @@ export class UserRepository {
 
     // Partial indica que apenas parte das propriedades do objeto podem ser recebidas
 
+    /*
     async update(id: string, user: Partial<User>) {
 
         const userToUpdate = await this.getById(id);
@@ -39,11 +40,13 @@ export class UserRepository {
 
 
     }
+    */
 
     async getAll(): Promise<User[]> {
         return this.users;
     }
 
+    /*
     async getById(id: string): Promise<User> {
         const user = this.users.find(u => u.id === id);
 
@@ -52,18 +55,20 @@ export class UserRepository {
 
         return user;
     }
+    */
 
     async isEmailAlreadyUsed(email: string) {
         const emailAlreadyUsed = this.users.find(u => u.email === email);
         return emailAlreadyUsed !== undefined;
     }
 
+    /*
     async deleteUser(id: string) {
 
         const user = this.getById(id);
         this.users = this.users.filter(savedUser => savedUser.id !== id);
         return user;
 
-    }
+    }*/
 
 }
